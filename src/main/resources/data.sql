@@ -6,55 +6,61 @@ DROP TABLE IF EXISTS comment;
 
 CREATE TABLE member
 (
-    id     INT AUTO_INCREMENT  PRIMARY KEY,
-    pseudo VARCHAR(250) NOT NULL,
-    mail   VARCHAR(250)
+    id            INT AUTO_INCREMENT  PRIMARY KEY,
+    pseudo        VARCHAR(250) NOT NULL,
+    mail          VARCHAR(250),
+    creation_date TIMESTAMP    NOT NULL
 );
 
 CREATE TABLE book
 (
-    id          INT AUTO_INCREMENT  PRIMARY KEY,
-    ownerId     INT          NOT NULL,
-    title       VARCHAR(250) NOT NULL,
-    author      VARCHAR(250) NOT NULL,
-    description TEXT
+    id            INT AUTO_INCREMENT  PRIMARY KEY,
+    ownerId       INT          NOT NULL,
+    title         VARCHAR(250) NOT NULL,
+    author        VARCHAR(250) NOT NULL,
+    description   TEXT,
+    creation_date TIMESTAMP    NOT NULL
+
 );
 
 CREATE TABLE lease
 (
-    id INT AUTO_INCREMENT  PRIMARY KEY,
-    idLender INT  NOT NULL,
-    idLendee INT  NOT NULL,
-    idBook   INT  NOT NULL,
-    lendDate DATE NOT NULL
+    id        INT AUTO_INCREMENT  PRIMARY KEY,
+    id_lender INT       NOT NULL,
+    id_lendee INT       NOT NULL,
+    id_book   INT       NOT NULL,
+    lend_date TIMESTAMP NOT NULL
 );
 
 CREATE TABLE comment
 (
-    id INT AUTO_INCREMENT  PRIMARY KEY,
-    idMember      INT  NOT NULL,
-    idBook      INT  NOT NULL,
-    description TEXT,
-    note        INT,
-    timestamp TIMESTAMP NOT NULL
+    id            INT AUTO_INCREMENT  PRIMARY KEY,
+    id_member     INT       NOT NULL,
+    id_book       INT       NOT NULL,
+    description   TEXT,
+    note          INT,
+    creation_date TIMESTAMP NOT NULL
 );
 
 
-INSERT INTO member (pseudo, mail)
-VALUES ('Laurent', 'laurentgina@mail.com'),
-       ('Sophie', 'sophiefoncek@mail.com'),
-       ('Agathe', 'agathefeeling@mail.com');
+INSERT INTO member (pseudo, mail, creation_date)
+VALUES ('Laurent', 'laurentgina@mail.com', '2023-12-13 12:13:00'),
+       ('Sophie', 'sophiefoncek@mail.com', '2023-12-13 12:13:00'),
+       ('Agathe', 'agathefeeling@mail.com', '2023-12-13 12:13:00');
 
 
-INSERT INTO book (ownerId, title, author, description)
-VALUES (1, 'L''art de la guerre', 'Sun Tzu', 'Un livre sur la guerre, pour ou contre ? L''auteur sait pas');
-VALUES (2, 'La fricadelle pour les nuls', 'Etchebest', 'L''authentique recette enfin révélé.');
-VALUES (3, 'Oui-oui à la ZAD', 'Lénard SCHISTE', 'Oui-oui vit en communauté et remet en question la propriété privée avec ses petits camarades.');
+INSERT INTO book (ownerId, title, author, description, creation_date)
+VALUES (1, 'L''art de la guerre', 'Sun Tzu', 'Un livre sur la guerre, pour ou contre ? L''auteur sait pas',
+        '2023-12-13 12:13:00');
+VALUES (2, 'La fricadelle pour les nuls', 'Etchebest', 'L''authentique recette enfin révélé.', '2023-12-13 12:13:00');
+VALUES (3, 'Oui-oui à la ZAD', 'Lénard SCHISTE',
+        'Oui-oui vit en communauté et remet en question la propriété privée avec ses petits camarades.',
+        '2023-12-13 12:13:00');
 
-INSERT INTO lease (idLender, idLendee, idBook, lendDate)
-VALUES (1,2,3, '2023-12-13');
+INSERT INTO lease (id_lender, id_lendee, id_book, lend_date)
+VALUES (1, 2, 3, '2023-12-13 12:13:00');
 
-INSERT INTO comment (idMember, idBook, description, note, timestamp)
-VALUES (2,3,'ZAD partout',5, '2023-12-13 13:12:00');
+INSERT INTO comment (id_member, id_book, description, note, creation_date)
+VALUES (2, 3, 'ZAD partout', 5, '2023-12-13 12:13:00');
 
 
