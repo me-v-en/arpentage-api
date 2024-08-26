@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS member;
-DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS lease;
 DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS member;
 
 
 CREATE TABLE member
@@ -15,7 +15,7 @@ CREATE TABLE member
 CREATE TABLE book
 (
     id            INT AUTO_INCREMENT  PRIMARY KEY,
-    ownerId       INT          NOT NULL,
+    owner_id      INT          NOT NULL,
     title         VARCHAR(250) NOT NULL,
     author        VARCHAR(250) NOT NULL,
     description   TEXT,
@@ -49,11 +49,11 @@ VALUES ('Laurent', 'laurentgina@mail.com', '2023-12-13 12:13:00'),
        ('Agathe', 'agathefeeling@mail.com', '2023-12-13 12:13:00');
 
 
-INSERT INTO book (ownerId, title, author, description, creation_date)
+INSERT INTO book (owner_id, title, author, description, creation_date)
 VALUES (1, 'L''art de la guerre', 'Sun Tzu', 'Un livre sur la guerre, pour ou contre ? L''auteur sait pas',
-        '2023-12-13 12:13:00');
-VALUES (2, 'La fricadelle pour les nuls', 'Etchebest', 'L''authentique recette enfin révélé.', '2023-12-13 12:13:00');
-VALUES (3, 'Oui-oui à la ZAD', 'Lénard SCHISTE',
+        '2023-12-13 12:13:00'),
+       (2, 'La fricadelle pour les nuls', 'Etchebest', 'L''authentique recette enfin révélé.', '2023-12-13 12:13:00'),
+       (3, 'Oui-oui à la ZAD', 'Lénard Schiste',
         'Oui-oui vit en communauté et remet en question la propriété privée avec ses petits camarades.',
         '2023-12-13 12:13:00');
 

@@ -38,8 +38,7 @@ public class MemberControllerTest {
         m.setPseudo("test");
         m.setMail("test@test.com");
 
-        Member createdMember = memberService.saveMember(m);
-        testMember = createdMember;
+         testMember = memberService.saveMember(m);
     }
 
     @AfterEach
@@ -49,7 +48,7 @@ public class MemberControllerTest {
 
     @Test
     public void getMemberTest() throws Exception {
-        mockMvc.perform(get("/member/"+testMember.getId()))
+        mockMvc.perform(get("/member/" + testMember.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.pseudo").value("test"));
     }
@@ -84,7 +83,7 @@ public class MemberControllerTest {
 
         String payload = objectMapper.writeValueAsString(testMember);
 
-        mockMvc.perform(put("/member/"+testMember.getId())
+        mockMvc.perform(put("/member/" + testMember.getId())
                         .content(payload)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -94,7 +93,7 @@ public class MemberControllerTest {
     @Test
     public void deleteMemberTest() throws Exception {
         int testMemberId = testMember.getId();
-        mockMvc.perform(delete("/member/"+testMemberId))
+        mockMvc.perform(delete("/member/" + testMemberId))
                 .andExpect(status().isOk());
 
         assertTrue(memberService.getMemberById(testMemberId).isEmpty());
