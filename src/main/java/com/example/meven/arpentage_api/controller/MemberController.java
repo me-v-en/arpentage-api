@@ -3,13 +3,12 @@ package com.example.meven.arpentage_api.controller;
 import com.example.meven.arpentage_api.model.Member;
 import com.example.meven.arpentage_api.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 public class MemberController {
     @Autowired
     private MemberService memberService;
@@ -48,7 +47,7 @@ public class MemberController {
         } else return null;
     }
 
-    @PostMapping("member")
+    @PostMapping("/member")
     Member createMember(@RequestBody final Member member) {
         return memberService.saveMember(member);
     }
