@@ -32,6 +32,11 @@ public class Loan {
     @Column
     private boolean ongoing = true;
 
+    public Loan(Member lender, Member borrower, Book book) {
+        this.setLender(lender);
+        this.setBorrower(borrower);
+        this.setBook(book);
+    }
     public int getId() {
         return id;
     }
@@ -44,7 +49,7 @@ public class Loan {
         this.lender = lender;
     }
 
-    public Member getborrower() {
+    public Member getBorrower() {
         return borrower;
     }
 

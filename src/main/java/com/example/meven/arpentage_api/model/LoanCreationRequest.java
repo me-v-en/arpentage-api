@@ -1,10 +1,23 @@
 package com.example.meven.arpentage_api.model;
 
-public class LoanCreationRequest {
-    int lenderId;
-    int borrowerId;
-    int bookId;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
+public class LoanCreationRequest {
+
+    @NotNull
+    private Integer lenderId;
+
+    @NotNull
+    private Integer borrowerId;
+
+    @NotNull
+    private Integer bookId;
+
+    // Default constructor required by Jackson
+    public LoanCreationRequest() {}
+
+    // Parameterized constructor for convenience
     public LoanCreationRequest(int lenderId, int borrowerId, int bookId) {
         this.lenderId = lenderId;
         this.borrowerId = borrowerId;

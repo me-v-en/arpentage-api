@@ -7,7 +7,10 @@ import com.example.meven.arpentage_api.model.Member;
 import com.example.meven.arpentage_api.service.BookService;
 import com.example.meven.arpentage_api.service.LoanService;
 import com.example.meven.arpentage_api.service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -27,23 +30,16 @@ public class LoanController {
     }
 
     @PostMapping("/loan/new")
-    public Loan createLoan(@RequestBody LoanCreationRequest LoanCreationRequest) {
-        Loan loan = new Loan();
+    public ResponseEntity<?> createLoan(@Valid @RequestBody LoanCreationRequest loanCreationRequest) {
+        try {
+            Loan createdLoan = loanService.createLoan(loanCreationRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdLoan);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
 
-       Optional<Member> lender = memberService.getMemberById(LoanCreationRequest.getLenderId());
-       if(lender.isPresent()) {
-           loan.setLender(lender.get());
-       }
-       Optional<Member> borrower = memberService.getMemberById(LoanCreationRequest.getBorrowerId());
-       if(borrower.isPresent()) {
-           loan.setBorrower(borrower.get());
-       }
-       Optional<Book> book = bookService.getBookById(LoanCreationRequest.getBookId());
-       if(book.isPresent()) {
-           loan.setBook(book.get());
-       }
 
-        return loanService.createLoan(loan);
     }
 
 
