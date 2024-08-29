@@ -13,7 +13,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Optional<Book> getBookById(long id) {
+    public Optional<Book> getBookById(int id) {
         return bookRepository.findById(id);
     }
     public Iterable<Book> getAllBooks() {
@@ -23,7 +23,7 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public void deleteBook(long id) {
+    public void deleteBook(int id) {
         bookRepository.deleteById(id);
     }
 }

@@ -18,7 +18,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Optional<Member> getMemberById(long id) {
+    public Optional<Member> getMemberById(int id) {
         return memberRepository.findById(id);
     }
 
@@ -26,7 +26,7 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public void deleteMemberById(long id) {
+    public void deleteMemberById(int id) {
         memberRepository.deleteById(id);
     }
 }

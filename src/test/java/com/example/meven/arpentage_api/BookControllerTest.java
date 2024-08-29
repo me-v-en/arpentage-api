@@ -55,7 +55,7 @@ public class BookControllerTest {
 
     @AfterEach
     public void tearDown() {
-        bookService.deleteBook((long) testBook.getId());
+        bookService.deleteBook(testBook.getId());
     }
 
 

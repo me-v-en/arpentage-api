@@ -31,12 +31,12 @@ public class LoanService {
         return loanRepository.findAll();
     }
 
-    public Optional<Loan> getLoanById(long id) {
+    public Optional<Loan> getLoanById(int id) {
         return loanRepository.findById(id);
     }
 
 
-    public void deleteLoanById(long id) {
+    public void deleteLoanById(int id) {
         loanRepository.deleteById(id);
     }
 
@@ -58,7 +58,7 @@ public class LoanService {
         return saveLoan(loan);
     }
 
-    public Loan returnLoan(long id) {
+    public Loan returnLoan(int id) {
         Optional<Loan> l = getLoanById(id);
         if (l.isPresent()) {
             Loan loan = l.get();
@@ -68,5 +68,9 @@ public class LoanService {
         }
         // todo : handle error, return a confirmation of success
         return null;
+    }
+
+    public void deleteLoan(int id){
+        loanRepository.deleteById(id);
     }
 }
