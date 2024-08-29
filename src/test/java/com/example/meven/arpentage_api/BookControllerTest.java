@@ -107,7 +107,7 @@ public void deleteBookTest() throws Exception {
         mockMvc.perform(delete("/book/" + bookId))
                 .andExpect(status().isOk());
 
-        assertTrue(bookService.getBook(bookId).isEmpty());
+        assertTrue(bookService.getBookById(bookId).isEmpty());
 }
 
 }

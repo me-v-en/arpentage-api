@@ -41,14 +41,6 @@ public class Book {
         return this.id + " " + this.title + " - " + this.author;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public Member getOwner() {
         return owner;
     }

@@ -18,6 +18,8 @@ public class MemberController {
         return memberService.getMemberById(id);
     }
 
+    // TODO : only enable the connected user to delete his own account
+    //Or protect it by an admin right
     @DeleteMapping("/member/{id}")
     void deleteMember(@PathVariable("id") final int id) {
         memberService.deleteMemberById(id);

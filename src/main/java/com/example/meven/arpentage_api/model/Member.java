@@ -48,12 +48,4 @@ public class Member {
     public String toString() {
         return this.id + " " + this.pseudo + " " + this.mail;
     }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
 }

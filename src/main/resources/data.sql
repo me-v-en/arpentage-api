@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS lease;
+DROP TABLE IF EXISTS loan;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS member;
@@ -23,20 +23,21 @@ CREATE TABLE book
 
 );
 
-CREATE TABLE lease
+CREATE TABLE loan
 (
     id        INT AUTO_INCREMENT  PRIMARY KEY,
-    id_lender INT       NOT NULL,
-    id_lendee INT       NOT NULL,
-    id_book   INT       NOT NULL,
-    lend_date TIMESTAMP NOT NULL
+    lender_id INT       NOT NULL,
+    borrower_id INT       NOT NULL,
+    book_id   INT       NOT NULL,
+    lend_date TIMESTAMP NOT NULL,
+    ongoing BOOLEAN NOT NULL
 );
 
 CREATE TABLE comment
 (
     id            INT AUTO_INCREMENT  PRIMARY KEY,
     id_member     INT       NOT NULL,
-    id_book       INT       NOT NULL,
+    book_id       INT       NOT NULL,
     description   TEXT,
     note          INT,
     creation_date TIMESTAMP NOT NULL
@@ -57,10 +58,10 @@ VALUES (1, 'L''art de la guerre', 'Sun Tzu', 'Un livre sur la guerre, pour ou co
         'Oui-oui vit en communauté et remet en question la propriété privée avec ses petits camarades.',
         '2023-12-13 12:13:00');
 
-INSERT INTO lease (id_lender, id_lendee, id_book, lend_date)
-VALUES (1, 2, 3, '2023-12-13 12:13:00');
+INSERT INTO loan (lender_id, borrower_id, book_id, lend_date,ongoing)
+VALUES (1, 2, 3, '2023-12-13 12:13:00', true);
 
-INSERT INTO comment (id_member, id_book, description, note, creation_date)
+INSERT INTO comment (id_member, book_id, description, note, creation_date)
 VALUES (2, 3, 'ZAD partout', 5, '2023-12-13 12:13:00');
 
 

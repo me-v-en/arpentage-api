@@ -13,7 +13,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Optional<Book> getBook(long id) {
+    public Optional<Book> getBookById(long id) {
         return bookRepository.findById(id);
     }
     public Iterable<Book> getAllBooks() {

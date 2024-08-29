@@ -19,7 +19,7 @@ public class BookController {
 
     @GetMapping("/book/{id}")
     public Optional<Book> getBookById(@PathVariable int id) {
-        return bookService.getBook(id);
+        return bookService.getBookById(id);
     }
 
     @GetMapping("/books")
@@ -40,7 +40,7 @@ public class BookController {
 
     @PutMapping("/book/{id}")
     public Book updateBook(@PathVariable int id, @RequestBody Book book) {
-        Optional<Book> b = bookService.getBook(id);
+        Optional<Book> b = bookService.getBookById(id);
         // If book exists, update his properties
         if (b.isPresent()) {
             Book bookToUpdate = b.get();
