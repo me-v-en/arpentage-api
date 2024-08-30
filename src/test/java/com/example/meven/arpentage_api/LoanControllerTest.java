@@ -18,10 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.net.http.HttpRequest;
-import java.util.Optional;
 
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -82,6 +80,23 @@ public class LoanControllerTest {
         memberService.deleteMemberById(lender.getId());
         memberService.deleteMemberById(borrower.getId());
     }
+
+    @Test
+    public void getLoanTest() throws Exception {
+        // Test the API endpoint
+        mockMvc.perform(get("/loan/"+loan.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(loan.getId()));
+    }
+
+    @Test
+    public void returnLoanTest() throws Exception {
+        // Test the API endpoint
+        mockMvc.perform(post("/loan/"+loan.getId()+"/return"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ongoing").value(false));
+    }
+
 
     @Test
     public void createLoanTest() throws Exception {

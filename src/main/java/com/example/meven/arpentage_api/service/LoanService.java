@@ -27,11 +27,6 @@ public class LoanService {
         return loanRepository.findById(id);
     }
 
-    public Iterable<Loan> getAllLoans() {
-        return loanRepository.findAll();
-    }
-
-
     public void deleteLoanById(int id) {
         loanRepository.deleteById(id);
     }
@@ -75,4 +70,6 @@ public class LoanService {
         // todo : handle error, return a confirmation of success
         return null;
     }
+
+
 }
