@@ -1,9 +1,7 @@
 package com.example.meven.arpentage_api.controller;
 
-import com.example.meven.arpentage_api.model.Book;
 import com.example.meven.arpentage_api.model.Loan;
 import com.example.meven.arpentage_api.model.LoanCreationRequest;
-import com.example.meven.arpentage_api.model.Member;
 import com.example.meven.arpentage_api.service.BookService;
 import com.example.meven.arpentage_api.service.LoanService;
 import com.example.meven.arpentage_api.service.MemberService;
@@ -19,10 +17,6 @@ import java.util.Optional;
 public class LoanController {
     @Autowired
     private LoanService loanService;
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private BookService bookService;
 
     @GetMapping("/loan/{id}")
     public Optional<Loan> getLoanById(@PathVariable int id) {
@@ -32,7 +26,7 @@ public class LoanController {
     @PostMapping("/loan/new")
     public ResponseEntity<?> createLoan(@Valid @RequestBody LoanCreationRequest loanCreationRequest) {
         try {
-            Loan createdLoan = loanService.createLoan(loanCreationRequest);
+            Loan createdLoan = loanService.createLoanFromRequest(loanCreationRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdLoan);
         }
         catch (IllegalArgumentException e) {

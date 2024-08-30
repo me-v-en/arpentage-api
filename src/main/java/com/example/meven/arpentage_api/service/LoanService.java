@@ -23,16 +23,12 @@ public class LoanService {
     @Autowired
     private BookService bookService;
 
-    public Loan saveLoan(Loan loan) {
-        return loanRepository.save(loan);
+    public Optional<Loan> getLoanById(int id) {
+        return loanRepository.findById(id);
     }
 
     public Iterable<Loan> getAllLoans() {
         return loanRepository.findAll();
-    }
-
-    public Optional<Loan> getLoanById(int id) {
-        return loanRepository.findById(id);
     }
 
 
@@ -40,7 +36,8 @@ public class LoanService {
         loanRepository.deleteById(id);
     }
 
-    public Loan createLoan(LoanCreationRequest request) {
+
+    public Loan createLoanFromRequest(LoanCreationRequest request) {
         final Member lender = memberService.getMemberById(request.getLenderId())
                 .orElseThrow(() -> new IllegalArgumentException("Lender member not found with ID: " + request.getLenderId()));
 
@@ -54,9 +51,18 @@ public class LoanService {
         // Is the book owned by the lender
         // Is the lender already lending this book
 
+        return createLoan(lender, borrower, book);
+    }
+
+    public Loan createLoan(Member lender, Member borrower, Book book) {
         Loan loan = new Loan(lender, borrower, book);
         return saveLoan(loan);
     }
+    public Loan saveLoan(Loan loan) {
+        return loanRepository.save(loan);
+    }
+
+
 
     public Loan returnLoan(int id) {
         Optional<Loan> l = getLoanById(id);
@@ -68,9 +74,5 @@ public class LoanService {
         }
         // todo : handle error, return a confirmation of success
         return null;
-    }
-
-    public void deleteLoan(int id){
-        loanRepository.deleteById(id);
     }
 }

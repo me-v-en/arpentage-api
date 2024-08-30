@@ -24,15 +24,27 @@ public class LoanCreationRequest {
         this.bookId = bookId;
     }
 
-    public int getLenderId() {
+    public @NotNull Integer getLenderId() {
         return lenderId;
     }
 
-    public int getBorrowerId() {
+    public void setLenderId(@NotNull Integer lenderId) {
+        this.lenderId = lenderId;
+    }
+
+    public @NotNull Integer getBorrowerId() {
         return borrowerId;
     }
 
-    public int getBookId() {
+    public void setBorrowerId(@NotNull Integer borrowerId) {
+        this.borrowerId = borrowerId;
+    }
+
+    public @NotNull Integer getBookId() {
         return bookId;
+    }
+
+    public void setBookId(@NotNull Integer bookId) {
+        this.bookId = bookId;
     }
 }
