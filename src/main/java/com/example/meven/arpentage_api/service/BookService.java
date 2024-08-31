@@ -13,8 +13,17 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Optional<Book> getBookById(int id) {
-        return bookRepository.findById(id);
+    public boolean isBookExisting(int id) {
+        Optional<Book> book = bookRepository.findById(id);
+        return book.isPresent();
+    }
+
+    public Book getBookById(int id) {
+        Optional<Book> book = bookRepository.findById(id);
+        if(book.isEmpty()){
+            throw new IllegalArgumentException("Book not found");
+        }
+        return book.get();
     }
     public Iterable<Book> getAllBooks() {
         return bookRepository.findAll();
@@ -24,6 +33,9 @@ public class BookService {
     }
 
     public void deleteBook(int id) {
+        if(!isBookExisting(id)){
+            throw new IllegalArgumentException("Book to delete not found");
+        }
         bookRepository.deleteById(id);
     }
 }

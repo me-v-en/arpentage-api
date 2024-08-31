@@ -34,7 +34,9 @@ public class MemberController {
     Member updateMember(@PathVariable("id") final int id, @RequestBody final Member member) {
         Optional<Member> m = memberService.getMemberById(id);
         // If member exists, update his properties
-        if (m.isPresent()) {
+        if (m.isEmpty()) {
+            throw new IllegalArgumentException("Member not found");
+        }
             Member memberToUpdate = m.get();
             if (member.getMail() != null) {
                 memberToUpdate.setMail(member.getMail());
@@ -44,9 +46,6 @@ public class MemberController {
             }
             memberService.saveMember(memberToUpdate);
             return memberToUpdate;
-            // If not, return null
-            // TODO : Handle with exceptions ?
-        } else return null;
     }
 
     @PostMapping("/member")

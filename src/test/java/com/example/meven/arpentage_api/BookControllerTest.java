@@ -55,7 +55,9 @@ public class BookControllerTest {
 
     @AfterEach
     public void tearDown() {
+        if(bookService.isBookExisting(testBook.getId())) {
         bookService.deleteBook(testBook.getId());
+        }
     }
 
 
@@ -107,7 +109,7 @@ public void deleteBookTest() throws Exception {
         mockMvc.perform(delete("/book/" + bookId))
                 .andExpect(status().isOk());
 
-        assertTrue(bookService.getBookById(bookId).isEmpty());
+        assertFalse(bookService.isBookExisting(bookId));
 }
 
 }
