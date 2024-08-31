@@ -3,6 +3,8 @@ package com.example.meven.arpentage_api.controller;
 import com.example.meven.arpentage_api.model.Member;
 import com.example.meven.arpentage_api.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,30 +16,47 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping("/member/{id}")
-    Optional<Member> getMemberById(@PathVariable("id") final int id, Model model) {
-        return memberService.getMemberById(id);
+    ResponseEntity<?> getMemberById(@PathVariable("id") final int id, Model model) {
+        try {
+            Member member = memberService.getMemberById(id);
+            return ResponseEntity.ok(member);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     // TODO : only enable the connected user to delete his own account
     //Or protect it by an admin right
     @DeleteMapping("/member/{id}")
-    void deleteMember(@PathVariable("id") final int id) {
-        memberService.deleteMemberById(id);
+    ResponseEntity<?> deleteMember(@PathVariable("id") final int id) {
+        try {
+            memberService.deleteMemberById(id);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("/members")
-    Iterable<Member> getAllMembers() {
-        return memberService.getAllMembers();
+    ResponseEntity<?> getAllMembers() {
+        try {
+            Iterable<Member> members = memberService.getAllMembers();
+            return ResponseEntity.ok(members);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PutMapping("/member/{id}")
-    Member updateMember(@PathVariable("id") final int id, @RequestBody final Member member) {
-        Optional<Member> m = memberService.getMemberById(id);
-        // If member exists, update his properties
-        if (m.isEmpty()) {
-            throw new IllegalArgumentException("Member not found");
-        }
-            Member memberToUpdate = m.get();
+    ResponseEntity<?> updateMember(@PathVariable("id") final int id, @RequestBody final Member member) {
+        try {
+            Member memberToUpdate = memberService.getMemberById(id);
             if (member.getMail() != null) {
                 memberToUpdate.setMail(member.getMail());
             }
@@ -45,7 +64,13 @@ public class MemberController {
                 memberToUpdate.setPseudo(member.getPseudo());
             }
             memberService.saveMember(memberToUpdate);
-            return memberToUpdate;
+            return ResponseEntity.ok(memberToUpdate);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PostMapping("/member")

@@ -38,12 +38,14 @@ public class MemberControllerTest {
         m.setPseudo("test");
         m.setMail("test@test.com");
 
-         testMember = memberService.saveMember(m);
+        testMember = memberService.saveMember(m);
     }
 
     @AfterEach
     public void tearDown() {
-        memberService.deleteMemberById(testMember.getId());
+        if (memberService.isMemberExisting(testMember.getId())) {
+            memberService.deleteMemberById(testMember.getId());
+        }
     }
 
     @Test
@@ -96,7 +98,7 @@ public class MemberControllerTest {
         mockMvc.perform(delete("/member/" + testMemberId))
                 .andExpect(status().isOk());
 
-        assertTrue(memberService.getMemberById(testMemberId).isEmpty());
+        assertFalse(memberService.isMemberExisting(testMemberId));
     }
 
 }

@@ -31,9 +31,7 @@ public class LoanService {
 
 
     public Loan createLoanFromRequest(LoanCreationRequest request) {
-        final Member borrower = memberService.getMemberById(request.getBorrowerId())
-                .orElseThrow(() -> new IllegalArgumentException("Borrower member not found with ID: " + request.getBorrowerId()));
-
+        final Member borrower = memberService.getMemberById(request.getBorrowerId());
         final Book book = bookService.getBookById(request.getBookId());
 
         return createLoan(borrower, book);

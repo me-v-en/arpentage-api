@@ -45,18 +45,16 @@ public class BookControllerTest {
         book.setTitle("Book Title");
         book.setAuthor("Author");
         book.setDescription("Description");
-        Optional<Member> m = memberService.getMemberById(1);
-        if (m.isPresent()) {
-            book.setOwner(m.get());
-        }
+        Member m = memberService.getMemberById(1);
+        book.setOwner(m);
 
         testBook = bookService.saveBook(book);
     }
 
     @AfterEach
     public void tearDown() {
-        if(bookService.isBookExisting(testBook.getId())) {
-        bookService.deleteBook(testBook.getId());
+        if (bookService.isBookExisting(testBook.getId())) {
+            bookService.deleteBook(testBook.getId());
         }
     }
 
@@ -103,13 +101,13 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$.title").value(testBook.getTitle()));
     }
 
-@Test
-public void deleteBookTest() throws Exception {
+    @Test
+    public void deleteBookTest() throws Exception {
         int bookId = testBook.getId();
         mockMvc.perform(delete("/book/" + bookId))
                 .andExpect(status().isOk());
 
         assertFalse(bookService.isBookExisting(bookId));
-}
+    }
 
 }

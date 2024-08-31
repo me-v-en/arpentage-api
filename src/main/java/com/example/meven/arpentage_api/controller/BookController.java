@@ -44,14 +44,15 @@ public class BookController {
     }
 
     @PostMapping("/book/new/owner/{ownerId}")
-    public Book createBook(@PathVariable int ownerId, @RequestBody Book book) {
-        // TODO : get the ownerId from the id of the user connected ?
-        Optional<Member> m = memberService.getMemberById(ownerId);
-        if (m.isPresent()) {
-            Member member = m.get();
+    public ResponseEntity<?> createBook(@PathVariable int ownerId, @RequestBody Book book) {
+        try {
+            Member member = memberService.getMemberById(ownerId);
             book.setOwner(member);
-            return bookService.saveBook(book);
-        } else return null;
+            Book savedBook = bookService.saveBook(book);
+            return ResponseEntity.ok(savedBook);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PutMapping("/book/{id}")

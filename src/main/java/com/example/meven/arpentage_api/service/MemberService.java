@@ -1,8 +1,8 @@
 package com.example.meven.arpentage_api.service;
 
+import com.example.meven.arpentage_api.model.Book;
 import com.example.meven.arpentage_api.model.Member;
 import com.example.meven.arpentage_api.repository.MemberRepository;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,22 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
+    public boolean isMemberExisting(int id) {
+        Optional<Member> member = memberRepository.findById(id);
+
+        return member.isPresent();
+    }
+
     public Member saveMember(Member member) {
         return memberRepository.save(member);
     }
 
-    public Optional<Member> getMemberById(int id) {
-        return memberRepository.findById(id);
+    public Member getMemberById(int id) {
+        Optional<Member> member = memberRepository.findById(id);
+        if (member.isEmpty()) {
+            throw new IllegalArgumentException("Member with id " + id + " not found");
+        }
+        return member.get();
     }
 
     public Iterable<Member> getAllMembers() {
@@ -27,6 +37,9 @@ public class MemberService {
     }
 
     public void deleteMemberById(int id) {
+        if(!isMemberExisting(id)){
+            throw new IllegalArgumentException("Member to delete not found");
+        }
         memberRepository.deleteById(id);
     }
 }
