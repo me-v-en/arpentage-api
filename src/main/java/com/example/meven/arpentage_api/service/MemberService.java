@@ -1,12 +1,10 @@
 package com.example.meven.arpentage_api.service;
 
-import com.example.meven.arpentage_api.model.Book;
 import com.example.meven.arpentage_api.model.Member;
 import com.example.meven.arpentage_api.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

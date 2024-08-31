@@ -1,6 +1,5 @@
 package com.example.meven.arpentage_api.model;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class LoanCreationRequest {
