@@ -2,9 +2,7 @@ package com.example.meven.arpentage_api.controller;
 
 import com.example.meven.arpentage_api.model.Loan;
 import com.example.meven.arpentage_api.model.LoanCreationRequest;
-import com.example.meven.arpentage_api.service.BookService;
 import com.example.meven.arpentage_api.service.LoanService;
-import com.example.meven.arpentage_api.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,10 +30,7 @@ public class LoanController {
         catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
-
     }
-
 
     @PostMapping("/loan/{id}/return")
     public Loan returnLoan(@PathVariable int id) {

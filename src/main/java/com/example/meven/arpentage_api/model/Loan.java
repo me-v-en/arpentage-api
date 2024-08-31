@@ -14,10 +14,6 @@ public class Loan {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "lender_id")
-    private Member lender;
-
-    @ManyToOne
     @JoinColumn(name = "borrower_id")
     private Member borrower;
 
@@ -34,21 +30,12 @@ public class Loan {
 
     public Loan(){}
 
-    public Loan(Member lender, Member borrower, Book book) {
-        this.setLender(lender);
+    public Loan(Member borrower, Book book) {
         this.setBorrower(borrower);
         this.setBook(book);
     }
     public int getId() {
         return id;
-    }
-
-    public Member getLender() {
-        return lender;
-    }
-
-    public void setLender(Member lender) {
-        this.lender = lender;
     }
 
     public Member getBorrower() {

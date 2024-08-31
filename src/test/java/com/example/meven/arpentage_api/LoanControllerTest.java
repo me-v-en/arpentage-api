@@ -43,18 +43,18 @@ public class LoanControllerTest {
     @Autowired
     private LoanService loanService;
 
-    private Member lender;
+    private Member bookOwner;
     private Member borrower;
     private Book book;
     private Loan loan;
 
     @BeforeAll
     void setUp() {
-        // Setup a default lender obj
-        Member l = new Member();
-        l.setPseudo("Lender");
-        l.setMail("test@example.com");
-        lender = memberService.saveMember(l);
+        // Setup a default bookOwner obj
+        Member o = new Member();
+        o.setPseudo("Lender");
+        o.setMail("test@example.com");
+        bookOwner = memberService.saveMember(o);
 
         // Setup a default borrower obj
         Member b = new Member();
@@ -67,17 +67,17 @@ public class LoanControllerTest {
         bk.setTitle("Book Title");
         bk.setAuthor("Author");
         bk.setDescription("Description");
-        bk.setOwner(lender);
+        bk.setOwner(bookOwner);
         book = bookService.saveBook(bk);
 
-        loan = loanService.createLoan(lender, borrower, book);
+        loan = loanService.createLoan( borrower, book);
     }
 
     @AfterAll
     public void tearDown() {
         loanService.deleteLoanById(loan.getId());
         bookService.deleteBook(book.getId());
-        memberService.deleteMemberById(lender.getId());
+        memberService.deleteMemberById(bookOwner.getId());
         memberService.deleteMemberById(borrower.getId());
     }
 
@@ -103,14 +103,13 @@ public class LoanControllerTest {
         //Setup the loan object
         LoanCreationRequest request = new LoanCreationRequest();
 
-        request.setLenderId(lender.getId());
         request.setBorrowerId(borrower.getId());
         // Create a new book obj
         Book bk = new Book();
         bk.setTitle("Book Title");
         bk.setAuthor("Author");
         bk.setDescription("Description");
-        bk.setOwner(lender);
+        bk.setOwner(bookOwner);
         bk = bookService.saveBook(bk);
 
         request.setBookId(bk.getId());
@@ -130,7 +129,6 @@ public class LoanControllerTest {
         //Setup the loan object
         LoanCreationRequest request = new LoanCreationRequest();
 
-        request.setLenderId(lender.getId());
         request.setBorrowerId(borrower.getId());
 
         // Create the JSON
@@ -143,21 +141,25 @@ public class LoanControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-//    public void createLoanWithLendedBookTest() throws Exception {
-//        LoanCreationRequest request = new LoanCreationRequest();
-//        request.setLenderId(lender.getId());
-//        request.setBorrowerId(borrower.getId());
-//        request.setBookId(book.getId());
-//
-//        // Create the JSON
-//        String payload = objectMapper.writeValueAsString(request);
-//
-//        // Test the API endpoint
-//        mockMvc.perform(post("/loan/new")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(payload))
-//                .andExpect(status().isCreated());
-//    }
+    @Test
+    public void createLoanWithLendedBookTest() throws Exception {
+        // Create a loan with a book
+        loanService.createLoan( borrower, book);
+
+        // Create another loan of the same book
+        LoanCreationRequest request = new LoanCreationRequest();
+        request.setBorrowerId(borrower.getId());
+        request.setBookId(book.getId());
+
+        // Create the JSON
+        String payload = objectMapper.writeValueAsString(request);
+
+        // Test the API endpoint
+        mockMvc.perform(post("/loan/new")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(payload))
+                .andExpect(status().isBadRequest());
+    }
 
 
 }

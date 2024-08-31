@@ -26,7 +26,6 @@ CREATE TABLE book
 CREATE TABLE loan
 (
     id        INT AUTO_INCREMENT  PRIMARY KEY,
-    lender_id INT       NOT NULL,
     borrower_id INT       NOT NULL,
     book_id   INT       NOT NULL,
     lend_date TIMESTAMP NOT NULL,
@@ -58,8 +57,8 @@ VALUES (1, 'L''art de la guerre', 'Sun Tzu', 'Un livre sur la guerre, pour ou co
         'Oui-oui vit en communauté et remet en question la propriété privée avec ses petits camarades.',
         '2023-12-13 12:13:00');
 
-INSERT INTO loan (lender_id, borrower_id, book_id, lend_date,ongoing)
-VALUES (1, 2, 3, '2023-12-13 12:13:00', true);
+INSERT INTO loan ( borrower_id, book_id, lend_date,ongoing)
+VALUES ( 2, 3, '2023-12-13 12:13:00', true);
 
 -- INSERT INTO comment (id_member, book_id, description, note, creation_date)
 -- VALUES (2, 3, 'ZAD partout', 5, '2023-12-13 12:13:00');
